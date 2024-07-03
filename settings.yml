@@ -1,0 +1,9 @@
+
+
+
+debug_log_filename: "debugLog"
+percentage_filter_default: 25
+repeat: true
+repeatfileLocation: "default_store_location"
+logsLocation: "file_location_create"
+usefilepath: true

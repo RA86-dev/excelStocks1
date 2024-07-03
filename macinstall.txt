@@ -1,0 +1,10 @@
+tdqm
+matplotlib
+openpyxl
+yfinance
+pandas
+gradio
+plyer
+pyobjus 
+pyyaml
+urllib
