@@ -1,5 +1,5 @@
 # ExcelStocks
-
+## THIS IS ONLY FOR TESTING/EDUCATIONAL PURPOSES ONLY.
 ExcelStocks is a program that generates a list of stocks that conforms to Kristjan Kullamägi's Trading strategies of the following stock rules:
 
 1. There has been an increase of 30-100% or higher in the past 1-3 months.
