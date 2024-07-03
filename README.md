@@ -32,6 +32,6 @@ The sources for the ExcelStocks are the the following URLS (fetched with pandas)
 So far, the operating systems that have been tested:
 1. Ubuntu 20.04 LTS (Notifications work)
 2. Raspbian 13+ (Notifications don't work)
-3. Windows 10 (Notifications Work)
-4. MacOS 12.7.5 Monterey (Notifications don't work)
+3. Windows 10/11 (Notifications Work)
+5. MacOS 12.7.5 Monterey (Notifications don't work)
 
