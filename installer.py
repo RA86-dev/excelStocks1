@@ -22,14 +22,16 @@ else:
     print('Defaulting to main install for Win10/Win11,etc.')
     os.system('pip install -r requirements.txt')
 yml_file_lines = '''
-
-
-debug_log_filename: "debugLog"
+# default main used.
+debug_log_filename: debugLog
+logsLocation: file_location_create
 percentage_filter_default: 25
 repeat: true
-repeatfileLocation: "default_store_location"
-logsLocation: "file_location_create"
+repeatfileLocation: default_store_location
 usefilepath: true
+# stock method
+max_price_threshold: 200
+
 '''
 with open('settings.yml','w') as _:
     _.write(yml_file_lines)
