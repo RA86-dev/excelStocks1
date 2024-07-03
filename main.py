@@ -27,8 +27,6 @@ try:
     from plyer import notification
     clx.write('Imported plyer, notification')
 
-    import matplotlib.pyplot as plt
-    clx.write('Imported matplotlib.pyplot')
 
     from datetime import datetime, timedelta
     clx.write('Imported datetime')
@@ -53,17 +51,7 @@ except ImportError as e:
     clx.write(f'ImportError: {str(e)}')
 
     
-    print('Do you want to install required libraries? y/n')
-    if input('y/n').lower() == "y":
-        print('Ok! Installing now.')
-        try:
-            os.system('pip install pyyaml openpyxl matplotlib pandas yfinance tqdm plyer')
-        except Exception as e:
-            print(f"An error occurred. Retrying different method")
-            try:
-                os.system('pip3 install pyyaml openpyxl matplotlib pandas yfinance tqdm plyer')
-            except Exception as e:
-                print(f'An error occurred. No more methods able to try. The error is {e}')
+    print(f"ImportError {str(e)}")
 timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 debug_log_filename = config.get('debug_log_filename', f'debugLog_{timestamp}.txt')
 clear = open(debug_log_filename, 'w')
@@ -71,7 +59,7 @@ clear.write(f'debug_file(date={time.asctime()}) \n')
 clx = open(debug_log_filename, 'a')
 # Fetch percentage filter from configuration or prompt user
 try:
-    percentage_filter = config['percentage_filter_default'] /100
+    percentage_filter = int(config['percentage_filter_default']) /100
 except ValueError:
     print('Could not find th e percentage from settings.yml.')
     quit()
@@ -113,44 +101,50 @@ def show_notification(title,message,app_name,timeout=10):
         app_name=f"{app_name}",
         timeout=timeout
     )
+
+# Function to fetch stock data for a given ticker symbol
 def fetch_stock_data(ticker):
-    """
-    Fetches and processes stock data for a given ticker symbol.
-    """
     end_date = datetime.today()
     start_date = end_date - timedelta(days=180)
     stock_data = yf.download(ticker, start=start_date, end=end_date)
-    
+
     if stock_data.empty:
         return pd.DataFrame()
-    
+
     stock_data['MA10'] = stock_data['Close'].rolling(window=10).mean()
     stock_data['MA20'] = stock_data['Close'].rolling(window=20).mean()
     stock_data['MA50'] = stock_data['Close'].rolling(window=50).mean()
     stock_data['1M_Gain'] = 100 * (stock_data['Close'] / stock_data['Close'].shift(21) - 1)
     stock_data['3M_Gain'] = 100 * (stock_data['Close'] / stock_data['Close'].shift(63) - 1)
     stock_data['6M_Gain'] = 100 * (stock_data['Close'] / stock_data['Close'].shift(126) - 1)
-    
-    # Apply the first rule: increased 30% or more
-    # also convert stock_data['1M/3M/6M_gain'] into percentage,on line 73/74
+
+    # Apply filters based on configuration
     filtered_data = stock_data[
         ((stock_data['1M_Gain'] >= 30)) |
-        ((stock_data['3M_Gain'] >= 30)) 
+        ((stock_data['3M_Gain'] >= 30))
     ]
-    # Apply the second rule
+
     filtered_data = filtered_data[
-        (filtered_data['Close'] < filtered_data['MA10'] * 1 + percentage_filter) & (filtered_data['Close'] > filtered_data['MA10'] * 1 - percentage_filter) &
-        (filtered_data['Close'] < filtered_data['MA20'] * 1 + percentage_filter) & (filtered_data['Close'] > filtered_data['MA20'] * 1 - percentage_filter) &
-        (filtered_data['Close'] < filtered_data['MA50'] * 1 + percentage_filter) & (filtered_data['Close'] > filtered_data['MA50'] * 1 - percentage_filter)
+        (filtered_data['Close'] < filtered_data['MA10'] * 1 + percentage_filter) &
+        (filtered_data['Close'] > filtered_data['MA10'] * 1 - percentage_filter) &
+        (filtered_data['Close'] < filtered_data['MA20'] * 1 + percentage_filter) &
+        (filtered_data['Close'] > filtered_data['MA20'] * 1 - percentage_filter) &
+        (filtered_data['Close'] < filtered_data['MA50'] * 1 + percentage_filter) &
+        (filtered_data['Close'] > filtered_data['MA50'] * 1 - percentage_filter)
     ]
-    
+
+    # Apply max price threshold filter
+    max_price_threshold = config.get('max_price_threshold')
+    if max_price_threshold:
+        filtered_data = filtered_data[filtered_data['Close'] <= max_price_threshold]
+
     if filtered_data.empty:
         return pd.DataFrame()
-    
+
     filtered_data['Ticker'] = ticker
     filtered_data.reset_index(inplace=True)
     filtered_data = filtered_data[['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'MA10', 'MA20', 'MA50', '1M_Gain', '3M_Gain', '6M_Gain', 'Ticker']]
-    
+
     return filtered_data
 
 def main():
