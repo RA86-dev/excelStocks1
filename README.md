@@ -11,7 +11,7 @@ If you have any errors,please refer to the errors.md file, and if you have a sol
 ## Installation Guide
 
 first,download this repository by running
-`git clone https://github.com/RA86-dev/ExcelStocks`.
+`git clone https://github.com/RA86-dev/ExcelStocks1`.
 This will download it to ExcelStocks.
 
 
