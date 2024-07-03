@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExcelStocks</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+  }
+  h1, h2, h3 {
+    color: #333;
+  }
+  h2 {
+    margin-top: 20px;
+  }
+  code {
+    background-color: #f4f4f4;
+    padding: 5px;
+    border: 1px solid #ccc;
+    display: block;
+    margin-bottom: 10px;
+    font-family: Consolas, Monaco, monospace;
+  }
+  ul {
+    padding-left: 20px;
+  }
+</style>
+</head>
+<body>
+<h1>ExcelStocks</h1>
+
+<p>ExcelStocks is a program that generates a list of stocks that conforms to Kristjan Kullamägi's Trading strategies of the following stock rules:</p>
+
+<ol>
+  <li>There has been an increase of 30-100% or higher in the past 1-3 months.</li>
+  <li>Pull back to test the 10/20/50-day moving average, make narrow adjustments, and form a terminal consolidation pattern. Refer to its stock selection method on the TC2000 platform: 1-Month Gainers: 100*(C/C21-1); 3-Month Gainers: 100*(C/C63-1); 6-Month Gainers: 100*(C/ C126-1).</li>
+</ol>
+
+<p>If you have any errors, please refer to the errors.md file, and if you have a solution, please add on to the errors.md file.</p>
+
+<h2>Installation Guide</h2>
+
+<p>First, download this repository by running:</p>
+
+<code>git clone https://github.com/RA86-dev/ExcelStocks</code>
+
+<p>This will download it to ExcelStocks.</p>
+
+<ol>
+  <li>If this repo is in a .zip or .tar.gz or anything else, please unpack.</li>
+  <li>Open the terminal by right-clicking on the folder and clicking open in terminal (ADVANCED: use cd to advance to the location).</li>
+  <li>Run <code>python3 installer.py</code>. This will activate an installer that works on Windows, Mac, Linux, etc.</li>
+  <li>After installing the required libraries, run <code>main.py</code>. It should guide you through!</li>
+</ol>
+
+<h2>Sources</h2>
+
+<p>The sources for the ExcelStocks are the following URLs (fetched with pandas):</p>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average">Source 1 - Dow Jones Industrial Average</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/Nasdaq-100">Source 2 - Nasdaq 100</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/List_of_S%26P_500_companies">Source 3 - List of S&amp;P 500 Companies</a></li>
+</ul>
+
+<h3>Tested Operating Systems:</h3>
+
+<p>So far, the operating systems that have been tested:</p>
+
+<ol>
+  <li>Ubuntu 20.04 LTS (Notifications work)</li>
+  <li>Raspbian 13+ (Notifications don't work)</li>
+  <li>Windows 10/11 (Notifications Work)</li>
+  <li>MacOS 12.7.5 Monterey (Notifications don't work)</li>
+</ol>
+
+</body>
+</html>
